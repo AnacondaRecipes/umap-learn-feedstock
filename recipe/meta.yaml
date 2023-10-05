@@ -39,6 +39,7 @@ requirements:
 test:
   requires:
     - pip
+    - tbb
   imports:
     - umap
   commands:
