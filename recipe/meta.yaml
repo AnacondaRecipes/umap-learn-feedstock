@@ -59,7 +59,7 @@ about:
     runtime performacne than t-SNE and often preserves more global
     structure than t-SNE.
   dev_url: https://github.com/lmcinnes/umap
-  doc_url: https://umap-learn.readthedocs.io/en/latest/
+  doc_url: https://umap-learn.readthedocs.io
 
 extra:
   recipe-maintainers:
