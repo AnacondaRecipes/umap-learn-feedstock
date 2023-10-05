@@ -35,6 +35,7 @@ requirements:
     - pynndescent >=0.5
     - tqdm
     - tbb >=2019.0  # [x86_64]
+    - tbb4py        # [x86_64]
 
 test:
   requires:
