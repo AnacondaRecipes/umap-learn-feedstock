@@ -1,6 +1,6 @@
 {% set name = "umap-learn" %}
-{% set version = "0.5.3" %}
-{% set sha256 = "dbd57cb181c2b66d238acb5635697526bf24c798082daed0cf9b87f6a3a6c0c7" %}
+{% set version = "0.5.4" %}
+{% set sha256 = "8cb2fa20b2493f9adbff3bfa3b3e3787f6d67d1547e688ea2bdc272b37d89e18" %}
 
 package:
   name: {{ name|lower }}
@@ -53,7 +53,7 @@ about:
   description: |
     umap-learn provides the UMAP manifold based dimension reduction
     algorithm. The package provides an sklearn compatible interface
-    to t-SNE like dimension reduction technique that has better 
+    to t-SNE like dimension reduction technique that has better
     runtime performacne than t-SNE and often preserves more global
     structure than t-SNE.
   dev_url: https://github.com/lmcinnes/umap
