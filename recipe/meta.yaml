@@ -43,6 +43,7 @@ test:
   imports:
     - umap
   commands:
+    - pip list
     - pip check
 
 about:
