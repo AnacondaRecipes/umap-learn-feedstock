@@ -1,6 +1,5 @@
 {% set name = "umap-learn" %}
 {% set version = "0.5.4" %}
-{% set sha256 = "8cb2fa20b2493f9adbff3bfa3b3e3787f6d67d1547e688ea2bdc272b37d89e18" %}
 
 package:
   name: {{ name|lower }}
@@ -9,7 +8,7 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: 8cb2fa20b2493f9adbff3bfa3b3e3787f6d67d1547e688ea2bdc272b37d89e18
   patches:
     # version 0.5.4 brings in tbb as a dependency, but installing it is not
     # seen by pip and pip check will fail.
