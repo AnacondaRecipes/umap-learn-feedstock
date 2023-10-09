@@ -6,16 +6,17 @@ package:
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 8cb2fa20b2493f9adbff3bfa3b3e3787f6d67d1547e688ea2bdc272b37d89e18
+  url: https://github.com/lmcinnes/umap/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 067a1724cf9edfa5c32c791fae908361c402af97f3fbbec2b231503dfe057bc8
+
   patches:
     # version 0.5.4 brings in tbb as a dependency, but installing it is not
     # seen by pip and pip check will fail.
     # It seems that at the end it is an optional dependency
     # see here: https://github.com/lmcinnes/umap/issues/1060#issuecomment-1749511918
     # Therefore, we remove it from the dependencies
-    - patches/001-remove-tbb-dependency.patch
+    - patches/001_remove-tbb-dependency.patch
+    - patches/002_fix-relative-import-in-test.patch
 
 build:
   number: 0
@@ -45,10 +46,27 @@ requirements:
 test:
   requires:
     - pip
+    - pytest
+    # [plot]
+    - pandas
+    - matplotlib
+    - datashader
+    - bokeh
+    - holoviews
+    - colorcet
+    - seaborn
+    - scikit-image
+    # [parametric_umap]
+    # disable tensorflow for the moment 
+    # - tensorflow >= 2.12
+    # - tensorflow-probability >= 0.14
   imports:
     - umap
+  source_files:
+    - umap/tests
   commands:
     - pip check
+    - python -m pytest umap/tests --show-capture=no -v --disable-warnings
 
 about:
   home: https://github.com/lmcinnes/umap
