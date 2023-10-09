@@ -16,6 +16,7 @@ source:
     # see here: https://github.com/lmcinnes/umap/issues/1060#issuecomment-1749511918
     # Therefore, we remove it from the dependencies
     - patches/001_remove-tbb-dependency.patch
+    # see PR: https://github.com/lmcinnes/umap/pull/1063
     - patches/002_fix-relative-import-in-test.patch
 
 build:
