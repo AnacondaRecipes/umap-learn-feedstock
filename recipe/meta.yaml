@@ -50,8 +50,7 @@ requirements:
 
 # Skip tests eventually
 {% set tests_to_skip = "" %}
-# these fail with seg fault on ppc64le
-# {% set tests_to_skip = tests_to_skip + "test_umap_trustworthiness_random_init" %}  # [ppc64le]
+# this fails with seg fault on ppc64le
 {% set tests_to_skip = tests_to_skip + "test_string_metric_supervised_umap_trustworthiness" %}  # [ppc64le]
 
 {% set skip_tests_eventually = "" %}
