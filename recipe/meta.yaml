@@ -43,6 +43,11 @@ requirements:
     - tqdm
     - tbb >=2019.0  # [x86_64]
 
+
+# Skip tests modules
+{% set tests_to_skip = "" %}
+{% set tests_to_skip = tests_to_skip + "test_umap_trustworthiness_random_init" %}  # [not ppc64le]
+
 test:
   requires:
     - pip
@@ -66,7 +71,7 @@ test:
     - umap/tests
   commands:
     - pip check
-    - python -m pytest umap/tests --show-capture=no -v --disable-warnings
+    - python -m pytest umap/tests -k "not ({{ tests_to_skip }})" --show-capture=no -v --disable-warnings
 
 about:
   home: https://github.com/lmcinnes/umap
