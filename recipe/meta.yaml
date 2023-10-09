@@ -21,7 +21,7 @@ source:
 build:
   number: 0
   # depends on numba not available for linux-s390x
-  skip: true  # [py<36 or s390x or (not ppc64le)]
+  skip: true  # [py<36 or s390x]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -35,6 +35,9 @@ requirements:
     - pip
   run:
     - python
+    # keep numpy<1.24.0
+    # https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1894129.html
+    # https://bobbyhadz.com/blog/systemerror-initialization-of-internal-failed-without-raising-an-exception
     - numpy >=1.17,<1.24.0
     - numba >=0.51.2
     - scikit-learn >=0.22
@@ -45,12 +48,12 @@ requirements:
 
 
 # Skip tests eventually
-{% set skip_tests_eventually = "" %}
 {% set tests_to_skip = "" %}
 # these fail with seg fault on ppc64le
 # {% set tests_to_skip = tests_to_skip + "test_umap_trustworthiness_random_init" %}  # [ppc64le]
 {% set tests_to_skip = tests_to_skip + "test_string_metric_supervised_umap_trustworthiness" %}  # [ppc64le]
 
+{% set skip_tests_eventually = "" %}
 {% if tests_to_skip|length > 0 %}
   {% set skip_tests_eventually = "-k \"not (" + tests_to_skip + ")\"" %}
 {% endif %}
