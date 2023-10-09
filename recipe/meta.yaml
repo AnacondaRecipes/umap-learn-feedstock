@@ -35,8 +35,6 @@ requirements:
     - pip
   run:
     - python
-    # https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1894129.html
-    # https://bobbyhadz.com/blog/systemerror-initialization-of-internal-failed-without-raising-an-exception#:~:text=%3D%3D1.23.5-,The%20error%20%22SystemError%3A%20initialization%20of%20_internal%20failed%20without%20raising%20an,release%20that%20caused%20the%20issue
     - numpy >=1.17,<1.24.0
     - numba >=0.51.2
     - scikit-learn >=0.22
@@ -49,9 +47,9 @@ requirements:
 # Skip tests eventually
 {% set skip_tests_eventually = "" %}
 {% set tests_to_skip = "" %}
-# this fails with seg fault on ppc64le
+# these fail with seg fault on ppc64le
 # {% set tests_to_skip = tests_to_skip + "test_umap_trustworthiness_random_init" %}  # [ppc64le]
-# {% set tests_to_skip = tests_to_skip + " or test_string_metric_supervised_umap_trustworthiness" %}  # [ppc64le]
+{% set tests_to_skip = tests_to_skip + "test_string_metric_supervised_umap_trustworthiness" %}  # [ppc64le]
 
 {% if tests_to_skip|length > 0 %}
   {% set skip_tests_eventually = "-k \"not (" + tests_to_skip + ")\"" %}
@@ -70,8 +68,10 @@ test:
     - colorcet
     - seaborn
     - scikit-image
+    # disable optional tests depending on tensorflow for the moment:
+    # the dependency "jax" is not available for all the python versions
+    # for tensorflow, and pip check fails.
     # [parametric_umap]
-    # disable tensorflow for the moment 
     # - tensorflow >= 2.12
     # - tensorflow-probability >= 0.14
   imports:
