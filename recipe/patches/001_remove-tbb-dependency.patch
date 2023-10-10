@@ -1,0 +1,13 @@
+diff --git a/setup.py b/setup.py
+index 17978db..08cda60 100644
+--- a/setup.py
++++ b/setup.py
+@@ -51,7 +51,7 @@ configuration = {
+         "numba >= 0.51.2",
+         "pynndescent >= 0.5",
+         "tqdm",
+-    ] + (["tbb >= 2019.0"] if platform.machine().lower().startswith("x86") else []),
++    ],
+     "extras_require": {
+         "plot": [
+             "pandas",
