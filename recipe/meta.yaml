@@ -107,4 +107,4 @@ extra:
   recipe-maintainers:
     - lmcinnes
   skip-lints:
-    - missing_pip_check  # [linux]
+    - missing_pip_check  # [unix and x86_64]
