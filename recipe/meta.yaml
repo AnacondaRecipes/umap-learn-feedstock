@@ -16,7 +16,6 @@ source:
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  # numpy<1.24 not avaliable on py>311
   skip: true  # [py<39]
 
 requirements:
