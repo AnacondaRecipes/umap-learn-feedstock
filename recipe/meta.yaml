@@ -32,6 +32,9 @@ requirements:
     - numba >=0.51.2
     - pynndescent >=0.5
     - tqdm
+  run_constraint:
+    - tensorflow >=2.1
+    - tbb >=2019.0
 
 # >   raise e.with_traceback(None)
 # E   numba.core.errors.TypingError: Failed in nopython mode pipeline (step: nopython frontend)
