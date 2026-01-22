@@ -1,13 +1,13 @@
 {% set name = "umap-learn" %}
-{% set version = "0.5.4" %}
+{% set version = "0.5.11" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://github.com/lmcinnes/umap/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 067a1724cf9edfa5c32c791fae908361c402af97f3fbbec2b231503dfe057bc8
+  url: https://github.com/lmcinnes/umap/archive/refs/tags/release-{{ version }}.tar.gz
+  sha256: 79ef064f7132b77f9fdc99fb7fb4e902c72078c867f1ec6734388c1a7602854f
 
   patches:
     # version 0.5.4 brings in tbb as a dependency, but installing it is not
@@ -20,7 +20,7 @@ source:
     - patches/002_fix-relative-import-in-test.patch
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   # numpy<1.24 not avaliable on py>311
   skip: true  # [py<36 or py>311]
