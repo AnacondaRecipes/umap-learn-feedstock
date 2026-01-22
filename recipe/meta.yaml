@@ -19,9 +19,6 @@ build:
   skip: true  # [py<39]
 
 requirements:
-  build:
-    - patch  # [not win]
-    - msys2-patch  # [win]
   host:
     - python
     - setuptools
