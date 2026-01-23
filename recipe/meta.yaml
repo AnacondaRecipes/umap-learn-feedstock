@@ -36,25 +36,6 @@ requirements:
     - tensorflow >=2.1
     - tbb >=2019.0
 
-# >   raise e.with_traceback(None)
-# E   numba.core.errors.TypingError: Failed in nopython mode pipeline (step: nopython frontend)
-{% set deselect_tests = " --deselect=umap/tests/test_plot.py::test_plot_runs_at_all" %}
-# >   raise TypeError(msg % type(expected_warning))
-# E   TypeError: exceptions must be derived from Warning, not <class 'NoneType'>
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_umap_ops.py::test_disconnected_data" %}
-# >   assert len(warnings) <= 1
-# E   assert 2 <= 1
-# E    +  where 2 = len(WarningsChecker(record=True))
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_umap_validation_params.py::test_umap_custom_distance_w_grad" %}
-# >   assert error < 3.0  # Higher error tolerance based on approx nearest neighbors
-# E   assert 17.72839 < 3.0
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_umap_ops.py::test_umap_update_large" %}
-# E   AssertionError: tsvd-warmed spectral init insufficiently close to standard spectral init
-# E       assert 0.200000000003558 < 1e-06
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_spectral.py::test_tsw_spectral_init" %}
-# Fatal Python error: Segmentation fault
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_umap_validation_params.py::test_umap_update_bad_params" %}  # [linux]
-
 test:
   source_files:
     - umap/tests
