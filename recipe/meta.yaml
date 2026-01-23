@@ -43,6 +43,7 @@ test:
     - umap
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
     # pyargs not work becasue result pkg don`t have umap/tests folder.
     - pytest umap/tests --show-capture=no -v --disable-warnings
   requires:
