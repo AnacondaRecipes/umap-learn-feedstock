@@ -33,7 +33,7 @@ requirements:
     - pynndescent >=0.5
     - tqdm
   run_constrained:
-    - tensorflow >=2.1
+    - tensorflow-base >=2.1
     - tbb >=2019.0
 
 test:
