@@ -32,7 +32,7 @@ requirements:
     - numba >=0.51.2
     - pynndescent >=0.5
     - tqdm
-  run_constraint:
+  run_constrained:
     - tensorflow >=2.1
     - tbb >=2019.0
 
