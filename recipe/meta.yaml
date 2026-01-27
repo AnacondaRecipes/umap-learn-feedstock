@@ -1,34 +1,24 @@
 {% set name = "umap-learn" %}
-{% set version = "0.5.4" %}
+{% set version = "0.5.11" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://github.com/lmcinnes/umap/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 067a1724cf9edfa5c32c791fae908361c402af97f3fbbec2b231503dfe057bc8
+  url: https://github.com/lmcinnes/umap/archive/refs/tags/release-{{ version }}.tar.gz
+  sha256: 79ef064f7132b77f9fdc99fb7fb4e902c72078c867f1ec6734388c1a7602854f
 
   patches:
-    # version 0.5.4 brings in tbb as a dependency, but installing it is not
-    # seen by pip and pip check will fail.
-    # It seems that at the end it is an optional dependency
-    # see here: https://github.com/lmcinnes/umap/issues/1060#issuecomment-1749511918
-    # Therefore, we remove it from the dependencies
-    - patches/001_remove-tbb-dependency.patch
     # see PR: https://github.com/lmcinnes/umap/pull/1063
     - patches/002_fix-relative-import-in-test.patch
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  # numpy<1.24 not avaliable on py>311
-  skip: true  # [py<36 or py>311]
+  skip: true  # [py<39]
 
 requirements:
-  build:
-    - patch  # [not win]
-    - msys2-patch  # [win]
   host:
     - python
     - setuptools
@@ -36,35 +26,15 @@ requirements:
     - pip
   run:
     - python
-    # keep numpy<1.24.0
-    # https://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg1894129.html
-    # https://bobbyhadz.com/blog/systemerror-initialization-of-internal-failed-without-raising-an-exception
-    - numpy >=1.17,<1.24.0
-    - numba >=0.51.2
-    - scikit-learn >=0.22
+    - numpy >=1.23
     - scipy >=1.3.1
+    - scikit-learn >=1.6
+    - numba >=0.51.2
     - pynndescent >=0.5
     - tqdm
-    - tbb >=2019.0  # [x86_64]
-
-# >   raise e.with_traceback(None)
-# E   numba.core.errors.TypingError: Failed in nopython mode pipeline (step: nopython frontend)
-{% set deselect_tests = " --deselect=umap/tests/test_plot.py::test_plot_runs_at_all" %}
-# >   raise TypeError(msg % type(expected_warning))
-# E   TypeError: exceptions must be derived from Warning, not <class 'NoneType'>
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_umap_ops.py::test_disconnected_data" %}
-# >   assert len(warnings) <= 1
-# E   assert 2 <= 1
-# E    +  where 2 = len(WarningsChecker(record=True))
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_umap_validation_params.py::test_umap_custom_distance_w_grad" %}
-# >   assert error < 3.0  # Higher error tolerance based on approx nearest neighbors
-# E   assert 17.72839 < 3.0
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_umap_ops.py::test_umap_update_large" %}
-# E   AssertionError: tsvd-warmed spectral init insufficiently close to standard spectral init
-# E       assert 0.200000000003558 < 1e-06
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_spectral.py::test_tsw_spectral_init" %}
-# Fatal Python error: Segmentation fault
-{% set deselect_tests = deselect_tests + " --deselect=umap/tests/test_umap_validation_params.py::test_umap_update_bad_params" %}  # [linux]
+  run_constrained:
+    - tensorflow-base >=2.1
+    - tbb >=2019.0
 
 test:
   source_files:
@@ -72,10 +42,10 @@ test:
   imports:
     - umap
   commands:
-    # pywavelets 1.5.0 has requirement numpy<2.0,>=1.22.4, but you have numpy 1.21.6.
-    - pip check  # [not (unix and x86_64)]
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
     # pyargs not work becasue result pkg don`t have umap/tests folder.
-    - pytest umap/tests {{ deselect_tests }} --show-capture=no -v --disable-warnings
+    - pytest umap/tests --show-capture=no -v --disable-warnings
   requires:
     - pip
     - pytest
@@ -86,6 +56,7 @@ test:
     - holoviews
     - colorcet
     - seaborn
+    - dask
     - scikit-image
 
 about:
@@ -106,5 +77,3 @@ about:
 extra:
   recipe-maintainers:
     - lmcinnes
-  skip-lints:
-    - missing_pip_check  # [unix and x86_64]
